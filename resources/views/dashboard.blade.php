@@ -77,6 +77,40 @@
                 </div>
             </div>
 
+            <!-- My Tasks (Tugas Saya) Widget -->
+            @php
+                $myTasks = \App\Models\Finding::where('assigned_to', auth()->id())
+                    ->whereIn('status', ['OPEN', 'IN_PROGRESS', 'OVERDUE'])
+                    ->latest()
+                    ->take(3)
+                    ->get();
+            @endphp
+            @if($myTasks->isNotEmpty())
+            <div class="bg-blue-600 rounded-2xl p-5 shadow-lg shadow-blue-600/20 text-white relative overflow-hidden">
+                <div class="absolute -top-12 -right-12 p-4 opacity-10 pointer-events-none">
+                    <svg class="w-48 h-48" fill="currentColor" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold">Tugas Saya</h3>
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-sm font-medium backdrop-blur-md">{{ $myTasks->count() }} Tugas Aktif</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        @foreach($myTasks as $task)
+                        <a href="{{ route('findings.show', $task) }}" class="bg-white/10 hover:bg-white/20 transition-colors border border-white/20 rounded-xl p-4 block">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-sm font-bold">{{ $task->finding_no }}</span>
+                                <span class="px-2 py-0.5 rounded text-xs font-semibold {{ $task->status === 'OVERDUE' ? 'bg-rose-500 text-white' : 'bg-blue-500 text-white' }}">{{ $task->status }}</span>
+                            </div>
+                            <p class="text-sm text-blue-100 truncate mb-3">{{ $task->description }}</p>
+                            <p class="text-xs text-blue-200">Deadline: {{ $task->due_date?->format('d M Y') ?? '-' }}</p>
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
+
             <!-- Charts & Lists -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 

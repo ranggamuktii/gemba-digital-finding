@@ -27,6 +27,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Notifications
+    Route::get('/notifications/{id}/read', function ($id) {
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+        return redirect($notification->data['url'] ?? route('dashboard'));
+    })->name('notifications.read');
+
     // Settings & Master Data (Super Admin Only)
     Route::middleware([\Spatie\Permission\Middleware\RoleMiddleware::class.':Super Admin'])->prefix('settings')->name('settings.')->group(function () {
         Route::get('/', [\App\Http\Controllers\SettingsController::class, 'index'])->name('index');

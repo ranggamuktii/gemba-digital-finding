@@ -36,6 +36,10 @@ class FindingObserver
         ]);
 
         event(new \App\Events\FindingCreated($finding));
+
+        if ($finding->assigned_to && $finding->assignee) {
+            $finding->assignee->notify(new \App\Notifications\FindingAssigned($finding));
+        }
     }
 
     /**
@@ -51,6 +55,10 @@ class FindingObserver
                 'changed_by' => auth()->id() ?? $finding->created_by, // Fallback if no auth
                 'remark' => 'Status updated.',
             ]);
+        }
+
+        if ($finding->isDirty('assigned_to') && $finding->assigned_to && $finding->assignee) {
+            $finding->assignee->notify(new \App\Notifications\FindingAssigned($finding));
         }
     }
 

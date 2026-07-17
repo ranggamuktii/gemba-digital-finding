@@ -33,6 +33,40 @@
                         <a href="{{ route('lang.switch', 'en') }}" class="px-2 py-1 text-xs font-medium rounded-md transition-colors {{ app()->getLocale() === 'en' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-400 hover:text-slate-600' }}">EN</a>
                     </div>
 
+                    <!-- Notifications Dropdown -->
+                    <x-dropdown align="right" width="80">
+                        <x-slot name="trigger">
+                            <button class="relative flex items-center p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 transition-colors">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                </svg>
+                                @if(auth()->user()->unreadNotifications->count() > 0)
+                                <span class="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500 border border-white"></span>
+                                </span>
+                                @endif
+                            </button>
+                        </x-slot>
+                        <x-slot name="content">
+                            <div class="px-4 py-3 border-b border-slate-100">
+                                <h3 class="text-sm font-semibold text-slate-800">Notifikasi</h3>
+                            </div>
+                            <div class="max-h-80 overflow-y-auto">
+                                @forelse(auth()->user()->notifications()->take(5)->get() as $notification)
+                                    <a href="{{ route('notifications.read', $notification->id) }}" class="block px-4 py-3 hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-0 {{ $notification->read_at ? 'opacity-60' : 'bg-blue-50/50' }}">
+                                        <p class="text-sm text-slate-800 font-medium mb-0.5">{{ $notification->data['message'] ?? 'Notification' }}</p>
+                                        <p class="text-xs text-slate-500">{{ $notification->created_at->diffForHumans() }}</p>
+                                    </a>
+                                @empty
+                                    <div class="px-4 py-6 text-center">
+                                        <p class="text-sm text-slate-500">Tidak ada notifikasi baru.</p>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </x-slot>
+                    </x-dropdown>
+
                     <!-- User Dropdown -->
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
