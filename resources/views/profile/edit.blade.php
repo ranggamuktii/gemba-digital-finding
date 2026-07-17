@@ -62,10 +62,12 @@
                 <h3 class="text-sm font-semibold text-slate-700 mb-4">Preferensi Bahasa</h3>
                 <div class="flex flex-col sm:flex-row gap-3">
                     <a href="{{ route('lang.switch', 'id') }}" class="w-full sm:flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border {{ app()->getLocale() === 'id' ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50' }} transition-colors font-medium text-sm">
-                        🇮🇩 Bahasa Indonesia
+                        <span class="text-xs font-bold px-1.5 py-0.5 rounded {{ app()->getLocale() === 'id' ? 'bg-blue-200 text-blue-800' : 'bg-slate-100 text-slate-500' }}">ID</span>
+                        Bahasa Indonesia
                     </a>
                     <a href="{{ route('lang.switch', 'en') }}" class="w-full sm:flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border {{ app()->getLocale() === 'en' ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50' }} transition-colors font-medium text-sm">
-                        🇬🇧 English
+                        <span class="text-xs font-bold px-1.5 py-0.5 rounded {{ app()->getLocale() === 'en' ? 'bg-blue-200 text-blue-800' : 'bg-slate-100 text-slate-500' }}">EN</span>
+                        English
                     </a>
                 </div>
             </div>
