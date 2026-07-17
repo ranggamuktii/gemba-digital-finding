@@ -203,10 +203,19 @@
                                         {{ $history->new_status === 'CLOSED' ? 'bg-emerald-400' : ($history->new_status === 'OVERDUE' ? 'bg-rose-400' : ($history->new_status === 'WAITING_VERIFICATION' ? 'bg-violet-400' : 'bg-blue-400')) }}
                                     "></div>
                                     <p class="text-sm font-medium text-slate-700">
+                                        @php
+                                            $labels = [
+                                                'OPEN' => 'Baru',
+                                                'IN_PROGRESS' => 'Dikerjakan',
+                                                'WAITING_VERIFICATION' => 'Menunggu Verifikasi',
+                                                'CLOSED' => 'Selesai',
+                                                'OVERDUE' => 'Terlambat',
+                                            ];
+                                        @endphp
                                         @if($history->old_status)
-                                            {{ $history->old_status }} → {{ $history->new_status }}
+                                            {{ $labels[$history->old_status] ?? $history->old_status }} &rarr; {{ $labels[$history->new_status] ?? $history->new_status }}
                                         @else
-                                            Finding created
+                                            Temuan baru dilaporkan
                                         @endif
                                     </p>
                                     <p class="text-xs text-slate-400 mt-0.5">
