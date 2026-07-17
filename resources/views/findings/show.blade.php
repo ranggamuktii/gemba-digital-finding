@@ -87,8 +87,18 @@
                 <!-- Sidebar -->
                 <div class="space-y-5">
 
+                    @if($finding->status === 'CLOSED')
+                    <div class="bg-emerald-50 rounded-xl border border-emerald-200 p-5 text-center">
+                        <svg class="w-8 h-8 text-emerald-500 mx-auto mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p class="text-sm font-semibold text-emerald-700 mb-1">Temuan Sudah Ditutup</p>
+                        <p class="text-xs text-emerald-500">Tidak ada aksi lanjutan yang diperlukan.</p>
+                    </div>
+                    @else
+
                     <!-- PIC Action Form -->
-                    @if($finding->status !== 'CLOSED' && auth()->user()->can('update', $finding))
+                    @can('update', $finding)
                     <div class="bg-white rounded-xl border border-slate-200 p-5" x-data>
                         <h3 class="text-sm font-semibold text-slate-700 mb-4">Update Progress</h3>
                         <form
@@ -149,9 +159,10 @@
                             </button>
                         </form>
                     </div>
+                    @endcan
 
                     <!-- Verify / Close Button (Manager Only) -->
-                    @if($finding->status === 'WAITING_VERIFICATION' && (auth()->id() === $finding->created_by || auth()->user()->hasRole('Super Admin') || auth()->user()->hasRole('Manager')))
+                    @if($finding->status === 'WAITING_VERIFICATION' && auth()->user()->can('verify', $finding))
                     <div class="bg-white rounded-xl border border-slate-200 p-5" x-data>
                         <h3 class="text-sm font-semibold text-slate-700 mb-3">Verifikasi Temuan</h3>
                         <p class="text-xs text-slate-500 mb-4">Setelah dicek secara visual, verifikasi bahwa temuan ini sudah diperbaiki.</p>
@@ -173,14 +184,16 @@
                     </div>
                     @endif
 
-                    @else
-                    <div class="bg-emerald-50 rounded-xl border border-emerald-200 p-5 text-center">
-                        <svg class="w-8 h-8 text-emerald-500 mx-auto mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    @if(!auth()->user()->can('update', $finding) && !($finding->status === 'WAITING_VERIFICATION' && auth()->user()->can('verify', $finding)))
+                    <div class="bg-blue-50 rounded-xl border border-blue-200 p-5 text-center">
+                        <svg class="w-8 h-8 text-blue-500 mx-auto mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                         </svg>
-                        <p class="text-sm font-semibold text-emerald-700 mb-1">Temuan Sudah Ditutup</p>
-                        <p class="text-xs text-emerald-500">Tidak ada aksi lanjutan yang diperlukan.</p>
+                        <p class="text-sm font-semibold text-blue-700 mb-1">Menunggu PIC</p>
+                        <p class="text-xs text-blue-500">Hanya PIC terkait yang dapat men-submit perbaikan.</p>
                     </div>
+                    @endif
+
                     @endif
 
                     <!-- History Timeline -->
