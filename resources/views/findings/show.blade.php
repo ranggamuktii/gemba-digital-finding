@@ -88,7 +88,7 @@
                 <div class="space-y-5">
 
                     <!-- PIC Action Form -->
-                    @if($finding->status !== 'CLOSED')
+                    @if($finding->status !== 'CLOSED' && auth()->user()->can('update', $finding))
                     <div class="bg-white rounded-xl border border-slate-200 p-5" x-data>
                         <h3 class="text-sm font-semibold text-slate-700 mb-4">Update Progress</h3>
                         <form
