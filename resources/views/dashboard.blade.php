@@ -16,8 +16,8 @@
                 </div>
                 <!-- Desktop Only: Big Report Button -->
                 <div class="hidden sm:block">
-                    <a href="{{ route('findings.create') }}" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-base font-bold rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-blue-300 transition-all">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                    <a href="{{ route('findings.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl shadow-sm hover:bg-blue-700 hover:-translate-y-0.5 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                         Lapor Temuan Baru
                     </a>
                 </div>
