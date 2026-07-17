@@ -89,7 +89,7 @@
 
                     <!-- PIC Action Form -->
                     @if($finding->status !== 'CLOSED')
-                    <div class="bg-white rounded-xl border border-slate-200 p-5">
+                    <div class="bg-white rounded-xl border border-slate-200 p-5" x-data>
                         <h3 class="text-sm font-semibold text-slate-700 mb-4">Update Progress</h3>
                         <form
                             id="submitActionForm"
@@ -152,7 +152,7 @@
 
                     <!-- Verify / Close Button (Manager Only) -->
                     @if($finding->status === 'WAITING_VERIFICATION' && (auth()->id() === $finding->created_by || auth()->user()->hasRole('Super Admin') || auth()->user()->hasRole('Manager')))
-                    <div class="bg-white rounded-xl border border-slate-200 p-5">
+                    <div class="bg-white rounded-xl border border-slate-200 p-5" x-data>
                         <h3 class="text-sm font-semibold text-slate-700 mb-3">Verifikasi Temuan</h3>
                         <p class="text-xs text-slate-500 mb-4">Setelah dicek secara visual, verifikasi bahwa temuan ini sudah diperbaiki.</p>
                         <form id="closeFindingForm" method="POST" action="{{ route('findings.update', $finding) }}">
