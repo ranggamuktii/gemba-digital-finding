@@ -35,7 +35,7 @@ class FindingActionController extends Controller
             abort(403, 'Cannot submit an action for a finding that has already been closed.');
         }
 
-        Gate::authorize('createAction', $finding);
+        Gate::authorize('update', $finding);
 
         $validated = $request->validate([
             'action_description' => 'required|string',
